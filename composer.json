@@ -1,5 +1,5 @@
 {
-    "name": "rainower/excel-data-extractor",
+    "name": "valentinloiseau/excel-data-extractor",
     "description": "Excel data extractor",
     "license": "MIT",
     "authors": [
@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Rainower\\ExcelDataExtractor\\": "src/ExcelDataExtractor"
+            "Val\\ExcelDataExtractor\\": "src/ExcelDataExtractor"
         }
     }
 }

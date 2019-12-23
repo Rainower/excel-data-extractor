@@ -1,21 +1,26 @@
 <?php
 
 
-namespace Rainower\ExcelDataExtractor;
+namespace Val\ExcelDataExtractor;
 
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use Val\ExcelDataExtractor\Exception\Exception;
+use Val\ExcelDataExtractor\Model\Header;
+use Val\ExcelDataExtractor\Model\Line;
+use Val\ExcelDataExtractor\Model\Table;
 
 class Crawler
 {
-    private $header = [];
-    private $lines = [];
+    private $table;
 
     public function crawl()
     {
         if (!Configuration::getFile()) {
             throw new Exception('You must provide file path. Try Rainower\ExcelDataExtractor\Configuration::setFile(\'path/to/my/file.xlsx\').');
         }
+
+        $this->table = new Table();
 
         $reader = IOFactory::createReaderForFile(Configuration::getFile());
         $spreadsheet = $reader->load(Configuration::getFile());
@@ -25,33 +30,23 @@ class Crawler
             $line = new Line();
 
             foreach ($row->getCellIterator() as $cell) {
-                $column = $this->header && Configuration::isLineAttributesFromHeader() ? $this->header[$cell->getColumn()] : $cell->getColumn();
-                $line->$column = $cell->getValue();
+                $line->addValue($cell->getColumn(), $cell->getValue(), $this->table);
             }
 
-            if (!$this->header && $line->isFull()) {
-                $this->header = (array) $line;
-            } elseif ($this->header && !$line->isBlank()) {
-                $this->lines[] = $line;
+            if (!$this->table->getHeaders() && $line->isFull()) {
+                $this->table->setHeaders(Header::initHeaders((array) $line));
+            } elseif ($this->table->getHeaders() && (!Configuration::isIgnoreBlankLines() || !$line->isBlank())) {
+                $this->table->addLine($line);
             }
         }
     }
 
-    public function getHeader(): ?array
+    public function getTable(): Table
     {
-        if (!$this->header) {
+        if (!$this->table) {
             $this->crawl();
         }
 
-        return $this->header;
-    }
-
-    public function getLines(): ?array
-    {
-        if (!$this->lines) {
-            $this->crawl();
-        }
-
-        return $this->lines;
+        return $this->table;
     }
 }

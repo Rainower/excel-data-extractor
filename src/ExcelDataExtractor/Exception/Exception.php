@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Rainower\ExcelDataExtractor;
+namespace Val\ExcelDataExtractor\Exception;
 
 
 class Exception extends \Exception

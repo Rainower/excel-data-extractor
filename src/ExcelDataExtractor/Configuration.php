@@ -1,12 +1,15 @@
 <?php
 
 
-namespace Rainower\ExcelDataExtractor;
+namespace Val\ExcelDataExtractor;
 
+
+use Val\ExcelDataExtractor\Exception\Exception;
 
 class Configuration
 {
     private static $file;
+    private static $ignoreBlankLines = true;
     private static $lineAttributesFromHeader = false;
 
     public static function getFile(): ?string
@@ -21,6 +24,16 @@ class Configuration
         }
 
         self::$file = $file;
+    }
+
+    public static function isIgnoreBlankLines(): bool
+    {
+        return self::$ignoreBlankLines;
+    }
+
+    public static function setIgnoreBlankLines(bool $ignoreBlankLines): void
+    {
+        self::$ignoreBlankLines = $ignoreBlankLines;
     }
 
     public static function isLineAttributesFromHeader(): bool
