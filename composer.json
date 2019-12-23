@@ -1,0 +1,19 @@
+{
+    "name": "rainower/excel-data-extractor",
+    "description": "Excel data extractor",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Valentin Loiseau"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "phpoffice/phpspreadsheet": "^1.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rainower\\ExcelDataExtractor\\": "src/ExcelDataExtractor"
+        }
+    }
+}
