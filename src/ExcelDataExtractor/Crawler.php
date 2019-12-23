@@ -12,18 +12,24 @@ use Val\ExcelDataExtractor\Model\Table;
 
 class Crawler
 {
+    private $file;
     private $table;
+
+    public function __construct(string $file)
+    {
+        if (!file_exists($file)) {
+            throw new Exception("File $file does not exist.");
+        }
+
+        $this->file = $file;
+    }
 
     public function crawl()
     {
-        if (!Configuration::getFile()) {
-            throw new Exception('You must provide file path. Try Rainower\ExcelDataExtractor\Configuration::setFile(\'path/to/my/file.xlsx\').');
-        }
-
         $this->table = new Table();
 
-        $reader = IOFactory::createReaderForFile(Configuration::getFile());
-        $spreadsheet = $reader->load(Configuration::getFile());
+        $reader = IOFactory::createReaderForFile($this->file);
+        $spreadsheet = $reader->load($this->file);
         $sheet = $spreadsheet->getActiveSheet();
 
         foreach ($sheet->getRowIterator() as $row) {

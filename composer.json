@@ -1,6 +1,8 @@
 {
     "name": "valentinloiseau/excel-data-extractor",
-    "description": "Excel data extractor",
+    "description": "Excel Data Extractor crawl an Excel file and extracts the header and data of a table inside.",
+    "homepage": "https://github.com/valentinloiseau/excel-data-extractor",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
